@@ -1,49 +1,69 @@
-
+var helicopterIMG, helicopterSprite, packageSprite,packageIMG;
+var packageBody,ground
 const Engine = Matter.Engine;
-const World= Matter.World;
+const World = Matter.World;
 const Bodies = Matter.Bodies;
+const Body = Matter.Body;
 
-var engine, world;
-var object,object1,object2,object3,object4,object5,object6;
-function setup(){
-  var canvas = createCanvas(1200,400);
-  engine = Engine.create();
-  world = engine.world;
-  object=Bodies.rectangle(200,10,10,30);
-  World.add(world,object);
-  console.log(object);
-  object1=Bodies.rectangle(300,10,10,30);
-  World.add(world,object1);
-  console.log(object1);
-  object2=Bodies.circle(400,400,110);
-  World.add(world,object2);
-  console.log(object2);
-  object3=Bodies.rectangle(200,10,10,30);
-  World.add(world,object3);
-  console.log(object3);
-  object4=Bodies.rectangle(300,10,10,30);
-  World.add(world,object4);
-  console.log(object4);
-  object5=Bodies.circle(400,400,110);
-  World.add(world,object5);
-  console.log(object5);
-}
-function draw()
+function preload()
 {
-  Engine.update(engine);
-  background(4);
-  rectMode(CENTER);
-  fill("purple");
-    rect(object.position.x,object.position.y,50,50);
-    fill("blue");
-    rect(object1.position.x,object.position.y,50,50);
-    fill("red");
-    circle(object2.position.x,object.position.y,100,100);
-    fill("pink");
-    rect(object.position.x,object.position.y,40,40);
-    fill("lightblue");
-    rect(object1.position.x,object.position.y,40,40);
-    fill("orange");
-    circle(object2.position.x,object.position.y,40,40);
+	helicopterIMG=loadImage("helicopter.png")
+	packageIMG=loadImage("package.png")
+}
+
+function setup() {
+	createCanvas(800, 700);
+	rectMode(CENTER);
+	
+
+	packageSprite=createSprite(width/2, 80, 10,10);
+	packageSprite.addImage(packageIMG);
+	packageSprite.scale=0.2;
+	
+
+	helicopterSprite=createSprite(width/2, 200, 10,10);
+	helicopterSprite.addImage(helicopterIMG)
+	helicopterSprite.scale=0.6;
+
+	groundSprite=createSprite(width/2, height-35, width,10);
+	groundSprite.shapeColor=color(255);
+
+
+	engine = Engine.create();
+	world = engine.world;
+
+	packageBody = Bodies.circle(width/2 , 200 , 5 , {restitution:0.4, isStatic:true});
+	World.add(world, packageBody);
+	
+	
+
+	//Create a Ground
+	ground = Bodies.rectangle(width/2, 650, width, 10 , {isStatic:true} );
+ 	World.add(world, ground);
+
+
+	Engine.run(engine);
   
 }
+
+
+function draw() {
+  rectMode(CENTER);
+  background(0);
+  packageSprite.x= packageBody.position.x 
+  packageSprite.y= packageBody.position.y 
+  drawSprites();
+ 
+}
+
+function keyPressed() {
+ if (keyCode === DOWN_ARROW) {
+	 Matter.Body.setStatic(packageBody,false);
+    // Look at the hints in the document and understand how to make the package body fall only on press of the Down arrow key.
+
+    
+  }
+}
+
+
+
