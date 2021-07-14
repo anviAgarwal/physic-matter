@@ -17,16 +17,15 @@ function setup() {
 	
 
 	packageSprite=createSprite(width/2, 80, 10,10);
-	packageSprite.addImage(packageIMG);
-	packageSprite.scale=0.2;
-	
+	packageSprite.addImage(packageIMG)
+	packageSprite.scale=0.2
 
 	helicopterSprite=createSprite(width/2, 200, 10,10);
 	helicopterSprite.addImage(helicopterIMG)
-	helicopterSprite.scale=0.6;
+	helicopterSprite.scale=0.6
 
-	groundSprite=createSprite(width/2, height-35, width,10);
-	groundSprite.shapeColor=color(255);
+	//groundSprite=createSprite(width/2, height-35, width,10);
+	//groundSprite.shapeColor=color(255)
 
 
 	engine = Engine.create();
@@ -35,35 +34,66 @@ function setup() {
 	packageBody = Bodies.circle(width/2 , 200 , 5 , {restitution:0.4, isStatic:true});
 	World.add(world, packageBody);
 	
-	
 
 	//Create a Ground
-	ground = Bodies.rectangle(width/2, 650, width, 10 , {isStatic:true} );
- 	World.add(world, ground);
+	//ground = Bodies.rectangle(width/2, 650, width, 10 , {isStatic:false} );
+ 	//World.add(world, ground);
+/*
+ 	boxPosition=width/2-100
+ 	boxY=610;
 
 
-	Engine.run(engine);
+ 	boxleftSprite=createSprite(boxPosition, boxY, 20,100);
+ 	boxleftSprite.shapeColor=color(255,0,0);
+
+ 	boxLeftBody = Bodies.rectangle(boxPosition+20, boxY, 20,100 , {isStatic:false} );
+ 	World.add(world, boxLeftBody);
+
+ 	boxBase=createSprite(boxPosition+100, boxY+40, 200,20);
+ 	boxBase.shapeColor=color(255,0,0);
+
+ 	boxBottomBody = Bodies.rectangle(boxPosition+100, boxY+45-20, 200,20 , {isStatic:false} );
+ 	World.add(world, boxBottomBody);
+
+ 	boxleftSprite=createSprite(boxPosition+200 , boxY, 20,100);
+ 	boxleftSprite.shapeColor=color(255,0,0);
+
+ 	boxRightBody = Bodies.rectangle(boxPosition+200-20 , boxY, 20,100 , {isStatic:false} );
+ 	World.add(world, boxRightBody);
+
   
+	Engine.run(engine);
+  */
+ box1=new Box(400,690,200,20,"red");
+ box2=new Box(500,650,20,100,"red");
+ box3=new Box(295,650,20,100,"red");
 }
 
 
 function draw() {
   rectMode(CENTER);
   background(0);
+ //console.log(packageSprite.x);
   packageSprite.x= packageBody.position.x 
   packageSprite.y= packageBody.position.y 
+  //if(packageSprite.x=400||410){
+packageSprite.x=helicopterSprite.x;
+//}
+  
   drawSprites();
- 
-}
-
-function keyPressed() {
- if (keyCode === DOWN_ARROW) {
-	 Matter.Body.setStatic(packageBody,false);
-    // Look at the hints in the document and understand how to make the package body fall only on press of the Down arrow key.
-
-    
+  if (keyDown("DOWN_ARROW")){
+	Matter.Body.setStatic(packageBody, false );
   }
+  box1.display();
+  box2.display();
+  box3.display();
+
+  Engine.update(engine);
+  if (keyDown("RIGHT_ARROW")){
+	  helicopterSprite.x=helicopterSprite.x+10;
+  }
+  if (keyDown("LEFT_ARROW")){
+	helicopterSprite.x=helicopterSprite.x-10;
+	//packageBody.x=packageBody.x-10;
 }
-
-
-
+}
